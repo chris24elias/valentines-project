@@ -4,6 +4,7 @@ import { formState } from "../stores/formStore";
 import type { FoodChoice } from "../types/forms";
 import { validateChoices } from "../utils/validation";
 import { addPageTransition } from "../utils/transitions";
+import { navigate } from "astro:transitions/client";
 
 interface ChoiceFormProps {
   title: string;
@@ -50,15 +51,13 @@ const ChoiceForm: React.FC<ChoiceFormProps> = ({
         [stateKey]: selectedItems,
       });
 
-      addPageTransition();
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      window.location.href = nextPage;
+      await navigate(nextPage);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleCheckboxChange = (id: number) => {
+  const handleChoiceClick = (id: number) => {
     setSelectedItems((prev) => {
       if (prev.includes(id)) {
         return prev.filter((item) => item !== id);
@@ -78,7 +77,13 @@ const ChoiceForm: React.FC<ChoiceFormProps> = ({
       <form onSubmit={handleSubmit}>
         <div className="choice-grid">
           {choices.map((choice) => (
-            <div key={choice.id} className="choice-item">
+            <div
+              key={choice.id}
+              className={`choice-item ${
+                selectedItems.includes(choice.id) ? "selected" : ""
+              }`}
+              onClick={() => handleChoiceClick(choice.id)}
+            >
               <img src={choice.image_url} alt={choice.text} />
               <label>
                 <input
@@ -86,7 +91,7 @@ const ChoiceForm: React.FC<ChoiceFormProps> = ({
                   name={inputName}
                   value={choice.id}
                   checked={selectedItems.includes(choice.id)}
-                  onChange={() => handleCheckboxChange(choice.id)}
+                  onChange={() => handleChoiceClick(choice.id)}
                 />
                 <span>{choice.text}</span>
               </label>
@@ -140,11 +145,19 @@ const ChoiceForm: React.FC<ChoiceFormProps> = ({
           padding: 1rem;
           background: rgba(255, 255, 255, 0.1);
           border-radius: 15px;
-          transition: transform 0.2s ease;
+          transition: all 0.2s ease;
+          cursor: pointer;
+          user-select: none;
         }
 
         .choice-item:hover {
           transform: translateY(-5px);
+          background: rgba(255, 255, 255, 0.2);
+        }
+
+        .choice-item.selected {
+          background: rgba(255, 107, 107, 0.2);
+          box-shadow: 0 0 0 2px #ff6b6b;
         }
 
         .choice-item img {
@@ -154,6 +167,7 @@ const ChoiceForm: React.FC<ChoiceFormProps> = ({
           border-radius: 12px;
           margin-bottom: 1rem;
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          pointer-events: none;
         }
 
         .choice-item label {
@@ -161,6 +175,10 @@ const ChoiceForm: React.FC<ChoiceFormProps> = ({
           align-items: center;
           gap: 0.5rem;
           font-size: 1.1rem;
+          cursor: pointer;
+        }
+
+        .choice-item input[type="checkbox"] {
           cursor: pointer;
         }
 

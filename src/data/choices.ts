@@ -4,44 +4,55 @@ export const foodChoices: FoodChoice[] = [
   {
     id: 1,
     text: "Korean Food",
-    image_url: "/src/images/korean.jpg",
+    image_url: "/valentines-project/images/korean.jpg",
     category: "food",
   },
   {
     id: 2,
     text: "Pasta",
-    image_url: "/src/images/pasta.jpg",
+    image_url: "/valentines-project/images/pasta.jpg",
     category: "food",
   },
   {
     id: 3,
     text: "Pizza",
-    image_url: "/src/images/pizza.jpg",
+    image_url: "/valentines-project/images/pizza.jpg",
     category: "food",
   },
   {
     id: 4,
     text: "Mediterranean",
-    image_url: "/src/images/mediterranean.jpg",
+    image_url: "/valentines-project/images/mediterranean.jpg",
     category: "food",
   },
   {
     id: 5,
     text: "Sushi",
-    image_url: "/src/images/sushi.jpg",
+    image_url: "/valentines-project/images/sushi.jpg",
     category: "food",
   },
   {
     id: 6,
     text: "Ramen",
-    image_url: "/src/images/ramen.jpg",
+    image_url: "/valentines-project/images/ramen.jpg",
     category: "food",
   },
-  { id: 7, text: "Thai", image_url: "/src/images/thai.jpg", category: "food" },
+  {
+    id: 7,
+    text: "Thai",
+    image_url: "/valentines-project/images/thai.jpg",
+    category: "food",
+  },
   {
     id: 8,
     text: "Chinese",
-    image_url: "/src/images/chinese.jpg",
+    image_url: "/valentines-project/images/chinese.jpg",
+    category: "food",
+  },
+  {
+    id: 9,
+    text: "Vietnamese",
+    image_url: "/src/images/vietnamese.jpeg",
     category: "food",
   },
 ];
@@ -50,21 +61,21 @@ export const dessertChoices: FoodChoice[] = [
   {
     id: 1,
     text: "Ice Cream / Gelato",
-    image_url: "/src/images/gelato.jpeg",
+    image_url: "/valentines-project/images/gelato.jpeg",
     category: "dessert",
   },
 
   {
     id: 2,
     text: "Cookies",
-    image_url: "/src/images/cookies.jpg",
+    image_url: "/valentines-project/images/cookies.jpg",
     category: "dessert",
   },
 
   {
     id: 3,
     text: "Cheesecake",
-    image_url: "/src/images/cheesecake.jpg",
+    image_url: "/valentines-project/images/cheesecake.jpg",
     category: "dessert",
   },
 ];
