@@ -1,18 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Button from '../components/Button.astro';
-import ChoiceGrid from '../components/ChoiceGrid.astro';
+import ChoiceForm from '../components/ChoiceForm';
 import { activityChoices } from '../data/choices';
 import { theme } from '../styles/theme';
 ---
 
 <Layout title="Activity Choices">
   <main>
-    <h1>What are we doing after?</h1>
-    <form id="activityForm">
-      <ChoiceGrid choices={activityChoices} name="activity" />
-      <Button text="Last Page" type="submit" />
-    </form>
+    <ChoiceForm
+      client:load
+      title="What are we doing after?"
+      choices={activityChoices}
+      stateKey="selectedActivities"
+      inputName="activity"
+      nextPage="/final"
+      submitText="Last Page"
+    />
   </main>
 </Layout>
 
@@ -56,23 +59,12 @@ import { theme } from '../styles/theme';
 </style>
 
 <script>
-  import { formState } from '../stores/formStore';
+  import { setupFormHandling } from '../utils/formHandling';
 
-  const form = document.getElementById('activityForm');
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const formData = new FormData(form as HTMLFormElement);
-    const selectedActivities = formData.getAll('activity').map(Number);
-    
-    if (selectedActivities.length === 0) {
-      alert('Please select at least one activity!');
-      return;
-    }
-
-    formState.set({
-      ...formState.get(),
-      selectedActivities,
-    });
-    window.location.href = '/final';
+  setupFormHandling({
+    formId: 'activityForm',
+    stateKey: 'selectedActivities',
+    inputName: 'activity',
+    nextPage: '/final'
   });
 </script> 

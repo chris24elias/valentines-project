@@ -1,19 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Button from '../components/Button.astro';
-import ChoiceGrid from '../components/ChoiceGrid.astro';
+import ChoiceForm from '../components/ChoiceForm';
 import { foodChoices } from '../data/choices';
 import { theme } from '../styles/theme';
 ---
 
 <Layout title="Food Choices">
-  <main class="fade-in">
-    <h1 class="slide-up">What food would you like to eat?</h1>
-    <form id="foodForm" class="slide-up">
-      <ChoiceGrid choices={foodChoices} name="food" />
-      <div class="error-message" id="error"></div>
-      <Button text="Continue" type="submit" />
-    </form>
+  <main>
+    <ChoiceForm
+      client:load
+      title="What food would you like to eat?"
+      choices={foodChoices}
+      stateKey="selectedFoods"
+      inputName="food"
+      nextPage="/dessert-choices"
+      submitText="Continue"
+    />
   </main>
 </Layout>
 
@@ -24,77 +26,4 @@ import { theme } from '../styles/theme';
     padding: 2rem;
     text-align: center;
   }
-
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-  }
-
-  .error-message {
-    color: #ff4444;
-    margin: 1rem 0;
-    min-height: 1.5em;
-  }
-</style>
-
-<script>
-  import { formState } from '../stores/formStore';
-  import { validateChoices } from '../utils/validation';
-  import { saveFormState, loadFormState } from '../utils/storage';
-  import { addPageTransition } from '../utils/transitions';
-
-  // Load saved state
-  const savedState = loadFormState();
-  const form = document.getElementById('foodForm');
-  const errorElement = document.getElementById('error');
-
-  // Pre-select saved choices if they exist
-  if (savedState?.selectedFoods) {
-    savedState.selectedFoods.forEach(id => {
-      const checkbox = form?.querySelector(`input[value="${id}"]`) as HTMLInputElement;
-      if (checkbox) checkbox.checked = true;
-    });
-  }
-
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(form as HTMLFormElement);
-    const selectedFoods = formData.getAll('food').map(Number);
-    
-    const errors = validateChoices(selectedFoods);
-    if (errors.length > 0) {
-      if (errorElement) errorElement.textContent = errors[0].message;
-      return;
-    }
-
-    const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-    button.disabled = true;
-    button.classList.add('loading');
-
-    try {
-      const newState = {
-        ...formState.get(),
-        selectedFoods,
-      };
-      formState.set(newState);
-      saveFormState(newState);
-      
-      // Add transition effect
-      addPageTransition();
-      
-      // Simulate loading for smoother transition
-      await new Promise(resolve => setTimeout(resolve, 500));
-      window.location.href = '/dessert-choices';
-    } finally {
-      button.disabled = false;
-      button.classList.remove('loading');
-    }
-  });
-</script> 
+</style> 

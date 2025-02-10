@@ -39,7 +39,7 @@ export const foodChoices: FoodChoice[] = [
   },
   { id: 7, text: "Thai", image_url: "/src/images/thai.jpg", category: "food" },
   {
-    id: 7,
+    id: 8,
     text: "Chinese",
     image_url: "/src/images/chinese.jpg",
     category: "food",
@@ -102,6 +102,12 @@ export const activityChoices: FoodChoice[] = [
   },
   {
     id: 6,
+    text: "Build lego set",
+    image_url: "src/images/lego.jpg",
+    category: "activity",
+  },
+  {
+    id: 7,
     text: "Have Fun ;)",
     image_url: "src/images/Couple Love Sticker.gif",
     category: "activity",
