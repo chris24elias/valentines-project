@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import ChoiceGrid from '../components/ChoiceGrid.astro';
+import { activityChoices } from '../data/choices';
+import { theme } from '../styles/theme';
+---
+
+<Layout title="Activity Choices">
+  <main>
+    <h1>What are we doing after?</h1>
+    <form id="activityForm">
+      <ChoiceGrid choices={activityChoices} name="activity" />
+      <Button text="Last Page" type="submit" />
+    </form>
+  </main>
+</Layout>
+
+<style define:vars={{ bgColor: theme.colors.background.yellow }}>
+  main {
+    min-height: 100vh;
+    background-color: var(--bgColor);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.5s ease-in;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    animation: slideUp 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { 
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  import { formState } from '../stores/formStore';
+
+  const form = document.getElementById('activityForm');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(form as HTMLFormElement);
+    const selectedActivities = formData.getAll('activity').map(Number);
+    
+    if (selectedActivities.length === 0) {
+      alert('Please select at least one activity!');
+      return;
+    }
+
+    formState.set({
+      ...formState.get(),
+      selectedActivities,
+    });
+    window.location.href = '/final';
+  });
+</script> 

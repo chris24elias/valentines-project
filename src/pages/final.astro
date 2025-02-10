@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { theme } from '../styles/theme';
+---
+
+<Layout title="Thank You!">
+  <main>
+    <div class="content">
+      <h1>Thank you for being so amazing! ❤️</h1>
+      <p>I'm the luckiest person to have you in my life!</p>
+      <img src={'src/images/Naughty Funny Gif (2).gif'}  />
+    </div>
+  </main>
+</Layout>
+
+<style define:vars={{ bgColor: theme.colors.background.yellow }}>
+  main {
+    min-height: 100vh;
+    background-color: var(--bgColor);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .content {
+    animation: fadeIn 1s ease-in;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #FF6B6B;
+  }
+
+  p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #666;
+  }
+
+ 
+</style> 

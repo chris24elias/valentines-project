@@ -1,0 +1,170 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import { theme } from '../styles/theme';
+---
+
+<Layout title="Oh no!">
+  <main>
+    <div class="content">
+      <h1>Are you sure? 🥺</h1>
+      <p>The button below might be a little tricky to click...</p>
+      <div class="button-container">
+        <div class="moving-button-wrapper">
+          <Button 
+            text="Yes, I'm sure" 
+            onClick="handleRejection()"
+          />
+        </div>
+        <Button 
+          text="No, I changed my mind! ❤️" 
+          onClick="window.location.href='/thank-you'"
+        />
+      </div>
+    </div>
+    <div class="overlay" id="rejectionOverlay">
+      <div class="overlay-content">
+        <h2>Wow, you actually caught me! 😮</h2>
+        <p>But... I'm gonna pretend I didn't see that 😌</p>
+        <Button 
+          text="Oh alright... ❤️" 
+          onClick="window.location.href='/thank-you'"
+        />
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style define:vars={{ bgColor: theme.colors.background.yellow }}>
+  main {
+    min-height: 100vh;
+    background-color: var(--bgColor);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .content {
+    animation: fadeIn 0.5s ease-in;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #FF6B6B;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #666;
+  }
+
+  .button-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 100px;
+  }
+
+  .moving-button-wrapper {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .overlay-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 20px;
+    text-align: center;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+    max-width: 90%;
+    width: 400px;
+  }
+
+  .overlay.active .overlay-content {
+    transform: scale(1);
+  }
+
+  .overlay h2 {
+    color: #FF6B6B;
+    margin-bottom: 1rem;
+  }
+
+  .overlay p {
+    margin-bottom: 2rem;
+  }
+</style>
+
+<script>
+  const movingButton = document.querySelector('.moving-button-wrapper');
+  const buttonContainer = document.querySelector('.button-container');
+  const overlay = document.querySelector('#rejectionOverlay');
+  let isMoving = false;
+  let currentPosition = { x: 0, y: 0 };
+  
+  if (movingButton && buttonContainer) {
+    buttonContainer.addEventListener('mousemove', (e) => {
+      if (isMoving) return;
+
+      const rect = (movingButton as HTMLElement).getBoundingClientRect();
+      const buttonCenterX = rect.left + rect.width / 2;
+      const buttonCenterY = rect.top + rect.height / 2;
+      
+      const distance = Math.hypot(e.clientX - buttonCenterX, e.clientY - buttonCenterY);
+      
+      if (distance < 100) {
+        isMoving = true;
+        
+        let angle = Math.atan2(e.clientY - buttonCenterY, e.clientX - buttonCenterX);
+        angle += Math.PI;
+        
+        const moveDistance = 100;
+        const newX = moveDistance * Math.cos(angle);
+        const newY = moveDistance * Math.sin(angle);
+        
+        currentPosition = { x: newX, y: newY };
+        (movingButton as HTMLElement).style.transform = `translate(${newX}px, ${newY}px)`;
+        
+        setTimeout(() => {
+          isMoving = false;
+        }, 300);
+      }
+    });
+  }
+
+  function handleRejection() {
+    if (overlay) {
+      overlay.classList.add('active');
+      
+      // setTimeout(() => {
+      //   window.location.href = '/thank-you';
+      // }, 3000);
+    }
+  }
+
+  window.handleRejection = handleRejection;
+</script> 

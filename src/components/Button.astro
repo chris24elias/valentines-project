@@ -1,0 +1,68 @@
+---
+import { theme } from '../styles/theme';
+
+interface Props {
+  text: string;
+  onClick?: string;
+  type?: "button" | "submit";
+  loading?: boolean;
+  disabled?: boolean;
+  class?: string;
+}
+
+const { text, onClick, type = "button", loading = false, disabled = false, class: className = '' } = Astro.props;
+---
+
+<button 
+  type={type} 
+  onclick={onClick} 
+  disabled={disabled || loading}
+  class:list={[className, { loading }]}
+>
+  {loading ? (
+    <div class="spinner"></div>
+  ) : text}
+</button>
+
+<style define:vars={{ 
+  buttonBg: theme.colors.button.background, 
+  buttonText: theme.colors.button.text,
+  buttonHover: theme.colors.button.hover 
+}}>
+  button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    background-color: var(--buttonBg);
+    color: var(--buttonText);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    position: relative;
+  }
+
+  button:hover:not(:disabled) {
+    background-color: var(--buttonHover);
+    transform: translateY(-2px);
+  }
+
+  button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--buttonText);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style> 

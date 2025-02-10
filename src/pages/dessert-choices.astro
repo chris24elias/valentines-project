@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import ChoiceGrid from '../components/ChoiceGrid.astro';
+import { dessertChoices } from '../data/choices';
+import { theme } from '../styles/theme';
+---
+
+<Layout title="Dessert Choices">
+  <main>
+    <h1>Which dessert we eatin?</h1>
+    <form id="dessertForm">
+      <ChoiceGrid choices={dessertChoices} name="dessert" />
+      <Button text="Continue" onClick="window.location.href='/activity-choices'" />
+    </form>
+  </main>
+</Layout>
+
+<style define:vars={{ bgColor: theme.colors.background.yellow }}>
+  main {
+    min-height: 100vh;
+    background-color: var(--bgColor);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+</style>
+
+<script>
+  import { formState } from '../stores/formStore';
+
+  const form = document.getElementById('dessertForm');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(form as HTMLFormElement);
+    const selectedDesserts = formData.getAll('dessert').map(Number);
+    formState.set({
+      ...formState.get(),
+      selectedDesserts,
+    });
+    window.location.href = '/activity-choices';
+  });
+</script> 
