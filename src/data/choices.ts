@@ -52,7 +52,7 @@ export const foodChoices: FoodChoice[] = [
   {
     id: 9,
     text: "Vietnamese",
-    image_url: "/src/images/vietnamese.jpeg",
+    image_url: "/valentines-project/images/vietnamese.jpeg",
     category: "food",
   },
 ];
@@ -84,43 +84,43 @@ export const activityChoices: FoodChoice[] = [
   {
     id: 1,
     text: "Watch a Movie",
-    image_url: "src/images/Couple Cuddling Movie Night.jpeg",
+    image_url: "/valentines-project/images/Couple Cuddling Movie Night.jpeg",
     category: "activity",
   },
   {
     id: 2,
     text: "Go for a Walk",
-    image_url: "src/images/Couple Walking Towards Sunset.jpg",
+    image_url: "/valentines-project/images/Couple Walking Towards Sunset.jpg",
     category: "activity",
   },
   {
     id: 3,
     text: "Watch Demon Slayer",
-    image_url: "/src/images/demon-slayer.jpg",
+    image_url: "/valentines-project/images/demon-slayer.jpg",
     category: "activity",
   },
   {
     id: 4,
     text: "Play Pico Park",
-    image_url: "/src/images/picopark.jpg",
+    image_url: "/valentines-project/images/picopark.jpg",
     category: "activity",
   },
   {
     id: 5,
     text: "Play It Takes Two",
-    image_url: "src/images/it-takes-two.jpeg",
+    image_url: "/valentines-project/images/it-takes-two.jpeg",
     category: "activity",
   },
   {
     id: 6,
     text: "Build lego set",
-    image_url: "src/images/lego.jpg",
+    image_url: "/valentines-project/images/lego.jpg",
     category: "activity",
   },
   {
     id: 7,
     text: "Have Fun ;)",
-    image_url: "src/images/Couple Love Sticker.gif",
+    image_url: "/valentines-project/images/Couple Love Sticker.gif",
     category: "activity",
   },
 ];
